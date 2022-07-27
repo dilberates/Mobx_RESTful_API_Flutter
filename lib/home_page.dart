@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'posts_list.dart';
+import 'posts_list.dart';
 import 'user_store.dart';
-//import 'users_list.dart';
+import 'users_list.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -39,8 +39,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-             // PostsList(),
-              //UserList(),
+              UserList(),
+              PostsList(),
             ],
           ),
         )
