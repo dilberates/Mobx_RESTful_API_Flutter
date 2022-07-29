@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
-import 'network_service.dart';
-import 'user.dart';
+
+import '../Models/user.dart';
+import '../Service/network_service.dart';
 
 part 'user_store.g.dart';
 
@@ -16,7 +17,6 @@ abstract class _UserStore with Store {
   Future fetchUsers() => userListFuture = ObservableFuture(httpClient
       .getData('https://reqres.in/api/users?page=1')
       .then((users) => users));
-
 
   void getTheUsers() {
     fetchUsers();

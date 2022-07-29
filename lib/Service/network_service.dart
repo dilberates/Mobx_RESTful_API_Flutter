@@ -1,10 +1,11 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'user.dart';
-import 'post.dart';
+
+import '../Models/post.dart';
+import '../Models/user.dart';
 
 class NetworkService {
-
   List<User> users = [];
   List<Post> posts = [];
 

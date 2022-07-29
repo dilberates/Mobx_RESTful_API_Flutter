@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'post.dart';
-import 'post_store.dart';
+
+import '../Models/post.dart';
+import '../Stores/post_store.dart';
 
 class PostsList extends StatelessWidget {
   PostStore store = PostStore();
@@ -12,15 +13,14 @@ class PostsList extends StatelessWidget {
     print(id);
   }
 
-
   @override
   Widget build(BuildContext context) {
     final future = store.postsListFuture;
 
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         title: Text("POSTS"),
-        ),
+      ),
       body: Observer(
         builder: (_) {
           switch (future.status) {
@@ -59,11 +59,11 @@ class PostsList extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final post = posts[index];
                     return ExpansionTile(
-                      title:
-                      Text(post.title, style: TextStyle(fontWeight: FontWeight.w600),),
-                      children: <Widget>[
-                        Text(post.body)
-                      ],
+                      title: Text(
+                        post.title,
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      children: <Widget>[Text(post.body)],
                     );
                   },
                 ),
