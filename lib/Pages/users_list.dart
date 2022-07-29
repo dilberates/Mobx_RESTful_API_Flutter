@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mobx_restfull_api/posts_list.dart';
-import 'user.dart';
-import 'user_store.dart';
+import 'package:mobx_restfull_api/Pages/posts_list.dart';
 
+import '../Models/user.dart';
+import '../Stores/user_store.dart';
 
 class UserList extends StatelessWidget {
   UserStore store = UserStore();
@@ -34,8 +34,7 @@ class UserList extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final user = users[index];
                   return ListTile(
-                    leading:
-                    Image.network(user.avatar),
+                    leading: Image.network(user.avatar),
                     title: Text(
                       user.name,
                       style: TextStyle(
@@ -46,13 +45,12 @@ class UserList extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w400),
                     ),
-                    onTap: (){
+                    onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PostsList(user.id),
+                        builder: (context) => PostsList(user.id),
                       ));
                     },
-                    trailing:Icon(Icons.person
-                    ),
+                    trailing: Icon(Icons.person),
                   );
                 },
               ),
