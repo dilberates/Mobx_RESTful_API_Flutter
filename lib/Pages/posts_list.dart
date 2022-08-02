@@ -50,7 +50,6 @@ class PostsList extends StatelessWidget {
               );
             case FutureStatus.fulfilled:
               final List<Post> posts = future.result;
-              print(posts);
               return RefreshIndicator(
                 onRefresh: _refresh,
                 child: ListView.builder(

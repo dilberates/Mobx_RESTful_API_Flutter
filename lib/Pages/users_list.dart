@@ -17,15 +17,15 @@ class UserList extends StatelessWidget {
   Widget build(BuildContext context) {
     final future = store.userListFuture;
     return Observer(
+      // ignore: missing_return
       builder: (_) {
         switch (future.status) {
+
           case FutureStatus.pending:
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return _pendingUsers();
+
           case FutureStatus.fulfilled:
             final List<User> users = future.result;
-            print(users);
             return RefreshIndicator(
               onRefresh: _refresh,
               child: ListView.builder(
@@ -33,28 +33,11 @@ class UserList extends StatelessWidget {
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final user = users[index];
-                  return ListTile(
-                    leading: Image.network(user.avatar),
-                    title: Text(
-                      user.name,
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      user.email,
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w400),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PostsList(user.id),
-                      ));
-                    },
-                    trailing: Icon(Icons.person),
-                  );
+                  return _loadUsers(user: user);
                 },
               ),
             );
+
           case FutureStatus.rejected:
             return Center(
               child: Column(
@@ -81,4 +64,49 @@ class UserList extends StatelessWidget {
   }
 
   Future _refresh() => store.fetchUsers();
+}
+
+class _loadUsers extends StatelessWidget {
+  const _loadUsers({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Image.network(user.avatar),
+      title: Text(
+        user.name,
+        style: TextStyle(
+            color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        user.email,
+        style: TextStyle(
+            color: Colors.black, fontWeight: FontWeight.w400),
+      ),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => PostsList(user.id),
+        ));
+      },
+      trailing: Icon(Icons.person),
+    );
+  }
+}
+
+class _pendingUsers extends StatelessWidget {
+  const _pendingUsers({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
 }
