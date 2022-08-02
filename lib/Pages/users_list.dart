@@ -5,13 +5,20 @@ import 'package:mobx_restfull_api/Pages/posts_list.dart';
 
 import '../Models/user.dart';
 import '../Stores/user_store.dart';
+UserStore _store = UserStore();
 
-class UserList extends StatelessWidget {
-  UserStore _store = UserStore();
+class UserList extends StatefulWidget {
 
   UserList() {
     _store.getTheUsers();
   }
+
+  @override
+  State<UserList> createState() => _UserListState();
+}
+
+class _UserListState extends State<UserList> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,24 +106,26 @@ class _loadUsers extends StatelessWidget {
         itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
-          return ListTile(
-            leading: Image.network(user.avatar),
-            title: Text(
-              user.name,
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          return Card(
+            child: ListTile(
+              leading: Image.network(user.avatar),
+              title: Text(
+                user.name,
+                style:
+                    TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                user.email,
+                style:
+                    TextStyle( fontWeight: FontWeight.w400),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PostsList(user.id),
+                ));
+              },
+              trailing: Icon(Icons.person),
             ),
-            subtitle: Text(
-              user.email,
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PostsList(user.id),
-              ));
-            },
-            trailing: Icon(Icons.person),
           );
         },
       ),

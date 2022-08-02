@@ -7,16 +7,22 @@ import 'package:mobx/mobx.dart';
 import '../Models/post.dart';
 import '../Stores/post_store.dart';
 
-class PostsList extends StatelessWidget {
-  PostStore store = PostStore();
+PostStore _store = PostStore();
+class PostsList extends StatefulWidget {
 
-  PostsList(String id) {
-    store.getThePosts(id);
+  PostsList(String id){
+    _store.getThePosts(id);
   }
 
   @override
+  State<PostsList> createState() => _PostsListState();
+}
+
+class _PostsListState extends State<PostsList> {
+
+  @override
   Widget build(BuildContext context) {
-    final future = store.postsListFuture;
+    final future = _store.postsListFuture;
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +45,9 @@ class PostsList extends StatelessWidget {
     );
   }
 
-  Future _refresh() => store.fetchPosts();
+  Future _refresh() => _store.fetchPosts();
+
+
 }
 
 class _pendingPost extends StatelessWidget {
