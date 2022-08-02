@@ -12,5 +12,7 @@
 
  - Bu projemde MobX ile RESTful API işlemi gerçekleştirdim.
  - Listelenen kullanıcılardan birine tıkladığımızda o kullanıcıya ait post bilgileri gelmektedir. 
+ - Projemi anlattığım Medium yazım aşağıda yer almaktadır : 
+ - [FLUTTER MOBX İLE RESTFUL API İŞLEMİ](https://medium.com/@dilberkilic/flutter-mobx-i%CC%87le-restful-api-i%CC%87%C5%9Flemi%CC%87-d39a4156f6e7)
  
 
