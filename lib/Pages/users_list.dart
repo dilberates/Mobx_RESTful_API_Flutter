@@ -7,96 +7,38 @@ import '../Models/user.dart';
 import '../Stores/user_store.dart';
 
 class UserList extends StatelessWidget {
-  UserStore store = UserStore();
+  UserStore _store = UserStore();
 
   UserList() {
-    store.getTheUsers();
+    _store.getTheUsers();
   }
 
   @override
   Widget build(BuildContext context) {
-    final future = store.userListFuture;
+    final future = _store.userListFuture;
     return Observer(
       // ignore: missing_return
       builder: (_) {
         switch (future.status) {
-
           case FutureStatus.pending:
             return _pendingUsers();
 
           case FutureStatus.fulfilled:
             final List<User> users = future.result;
-            return RefreshIndicator(
-              onRefresh: _refresh,
-              child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final user = users[index];
-                  return _loadUsers(user: user);
-                },
-              ),
-            );
+            return _loadUsers(users,_refresh);
 
           case FutureStatus.rejected:
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Failed to load items.',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    child: const Text('Tap to retry'),
-                    onPressed: _refresh,
-                  )
-                ],
-              ),
-            );
+            return _failed(_refresh);
             break;
         }
       },
     );
   }
 
-  Future _refresh() => store.fetchUsers();
+  Future _refresh() => _store.fetchUsers();
 }
 
-class _loadUsers extends StatelessWidget {
-  const _loadUsers({
-    Key key,
-    @required this.user,
-  }) : super(key: key);
 
-  final User user;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Image.network(user.avatar),
-      title: Text(
-        user.name,
-        style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(
-        user.email,
-        style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.w400),
-      ),
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PostsList(user.id),
-        ));
-      },
-      trailing: Icon(Icons.person),
-    );
-  }
-}
 
 class _pendingUsers extends StatelessWidget {
   const _pendingUsers({
@@ -110,3 +52,76 @@ class _pendingUsers extends StatelessWidget {
     );
   }
 }
+
+class _failed extends StatelessWidget {
+  final Future Function() refresh;
+  const _failed(this.refresh, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Failed to load items.',
+            style: TextStyle(color: Colors.red),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+            child: const Text('Tap to retry'),
+            onPressed: refresh,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
+class _loadUsers extends StatelessWidget {
+  final List<User> users;
+  final Future Function() refresh;
+  const _loadUsers(this.users, this.refresh, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh:refresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: users.length,
+        itemBuilder: (context, index) {
+          final user = users[index];
+          return ListTile(
+            leading: Image.network(user.avatar),
+            title: Text(
+              user.name,
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              user.email,
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+            ),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PostsList(user.id),
+              ));
+            },
+            trailing: Icon(Icons.person),
+          );
+        },
+      ),
+    );
+  }
+}
+
+

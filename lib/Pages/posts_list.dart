@@ -1,3 +1,5 @@
+// ignore_for_file: missing_return
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -10,7 +12,6 @@ class PostsList extends StatelessWidget {
 
   PostsList(String id) {
     store.getThePosts(id);
-    print(id);
   }
 
   @override
@@ -25,48 +26,12 @@ class PostsList extends StatelessWidget {
         builder: (_) {
           switch (future.status) {
             case FutureStatus.pending:
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-
+              return _pendingPost();
             case FutureStatus.rejected:
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Failed to load items.',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ElevatedButton(
-                      child: const Text('Tap to retry'),
-                      onPressed: _refresh,
-                    )
-                  ],
-                ),
-              );
+              return _fail(_refresh);
             case FutureStatus.fulfilled:
               final List<Post> posts = future.result;
-              return RefreshIndicator(
-                onRefresh: _refresh,
-                child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    final post = posts[index];
-                    return ExpansionTile(
-                      title: Text(
-                        post.title,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      children: <Widget>[Text(post.body)],
-                    );
-                  },
-                ),
-              );
+              return _loadPosts(posts,_refresh);
               break;
           }
         },
@@ -76,3 +41,74 @@ class PostsList extends StatelessWidget {
 
   Future _refresh() => store.fetchPosts();
 }
+
+class _pendingPost extends StatelessWidget {
+  const _pendingPost({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}
+class _loadPosts extends StatelessWidget {
+ final  List<Post> posts;
+ final Future Function() refresh;
+  const _loadPosts(this.posts, this.refresh, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: refresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: posts.length,
+        itemBuilder: (context, index) {
+          final post = posts[index];
+          return ExpansionTile(
+            title: Text(
+              post.title,
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            children: <Widget>[Text(post.body)],
+          );
+        },
+      ),
+    );
+  }
+}
+class _fail extends StatelessWidget {
+  final Future Function() refresh;
+  const _fail(this.refresh, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Failed to load items.',
+            style: TextStyle(color: Colors.red),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+            child: const Text('Tap to retry'),
+            onPressed: refresh,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
