@@ -5,6 +5,8 @@
 
 - In this project, I performed a RESTful API operation with MobX. 
 - When we click on one of the listed users, the post information of that user is displayed.
+- My Medium article about my project is below:
+- [FLUTTER MOBX İLE RESTFUL API İŞLEMİ](https://medium.com/@dilberkilic/flutter-mobx-i%CC%87le-restful-api-i%CC%87%C5%9Flemi%CC%87-d39a4156f6e7)
 
 <br/>
 <br/>
