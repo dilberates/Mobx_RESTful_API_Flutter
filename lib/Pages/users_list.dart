@@ -106,28 +106,42 @@ class _loadUsers extends StatelessWidget {
         itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
-          return Card(
-            child: ListTile(
-              leading: Image.network(user.avatar),
-              title: Text(
-                user.name,
-                style:
-                    TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                user.email,
-                style:
-                    TextStyle( fontWeight: FontWeight.w400),
-              ),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PostsList(user.id),
-                ));
-              },
-              trailing: Icon(Icons.person),
-            ),
-          );
+          return userCard(user: user);
         },
+      ),
+    );
+  }
+}
+
+class userCard extends StatelessWidget {
+  const userCard({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: Image.network(user.avatar),
+        title: Text(
+          user.name,
+          style:
+              TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          user.email,
+          style:
+              TextStyle( fontWeight: FontWeight.w400),
+        ),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => PostsList(user.id),
+          ));
+        },
+        trailing: Icon(Icons.person),
       ),
     );
   }
