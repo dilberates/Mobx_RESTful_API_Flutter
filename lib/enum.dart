@@ -1,0 +1,4 @@
+enum baseUrl{
+  users,
+  posts,
+}

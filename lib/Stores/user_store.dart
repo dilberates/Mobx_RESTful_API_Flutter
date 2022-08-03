@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:mobx_restfull_api/enum.dart';
 
 import '../Models/user.dart';
 import '../Service/network_service.dart';
@@ -16,7 +17,16 @@ abstract class _UserStore with Store {
   @action
   Future fetchUsers(){
     userListFuture = ObservableFuture(httpClient
-        .getData('https://reqres.in/api/users?page=1')
+        .getData(urlGet(baseUrl.users))
         .then((users) => users));
+  }
+}
+
+String urlGet(baseUrl url){
+  switch(url){
+    case baseUrl.users: 
+      return 'https://reqres.in/api/users?page=1';
+      break;
+    case baseUrl.posts:  
   }
 }
