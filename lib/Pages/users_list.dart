@@ -5,12 +5,12 @@ import 'package:mobx_restfull_api/Pages/posts_list.dart';
 
 import '../Models/user.dart';
 import '../Stores/user_store.dart';
-UserStore _store = UserStore();
+
 
 class UserList extends StatefulWidget {
-
+  UserStore _store = UserStore();
   UserList() {
-    _store.getTheUsers();
+    _store.fetchUsers();
   }
 
   @override
@@ -22,7 +22,7 @@ class _UserListState extends State<UserList> {
 
   @override
   Widget build(BuildContext context) {
-    final future = _store.userListFuture;
+    final future = widget._store.userListFuture;
     return Observer(
       // ignore: missing_return
       builder: (_) {
@@ -42,7 +42,7 @@ class _UserListState extends State<UserList> {
     );
   }
 
-  Future _refresh() => _store.fetchUsers();
+  Future _refresh() => widget._store.fetchUsers();
 }
 
 
