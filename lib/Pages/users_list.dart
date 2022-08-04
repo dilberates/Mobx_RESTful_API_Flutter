@@ -74,7 +74,7 @@ class _failed extends StatelessWidget {
         children: <Widget>[
           Text(
             'Failed to load items.',
-            style: TextStyle(color: Colors.red),
+            style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.red),
           ),
           SizedBox(
             height: 10,
@@ -128,13 +128,11 @@ class userCard extends StatelessWidget {
         leading: Image.network(user.avatar),
         title: Text(
           user.name,
-          style:
-              TextStyle(fontWeight: FontWeight.bold),
+          style:Theme.of(context).textTheme.headline5,
         ),
         subtitle: Text(
           user.email,
-          style:
-              TextStyle( fontWeight: FontWeight.w400),
+            style:Theme.of(context).textTheme.bodyText1
         ),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(

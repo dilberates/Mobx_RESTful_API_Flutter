@@ -81,7 +81,7 @@ class _loadPosts extends StatelessWidget {
           return ExpansionTile(
             title: Text(
               post.title,
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style:Theme.of(context).textTheme.bodyText1,
             ),
             children: <Widget>[Text(post.body)],
           );
@@ -104,7 +104,7 @@ class _fail extends StatelessWidget {
         children: <Widget>[
           Text(
             'Failed to load items.',
-            style: TextStyle(color: Colors.red),
+            style: Theme.of(context).textTheme.headline1.copyWith(color: Colors.red),
           ),
           SizedBox(
             height: 10,
