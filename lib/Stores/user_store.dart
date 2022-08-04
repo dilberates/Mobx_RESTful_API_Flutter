@@ -24,7 +24,7 @@ abstract class _UserStore with Store {
 
 String urlGet(baseUrl url){
   switch(url){
-    case baseUrl.users: 
+    case baseUrl.users:
       return 'https://reqres.in/api/users?page=1';
       break;
     case baseUrl.posts:  
