@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobx_restfull_api/Pages/Constans.dart';
 
 import 'home_page.dart';
 
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: '1dilbeer',
+      title: MyConstans.mainTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobx_restfull_api/Pages/Constans.dart';
 import 'users_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +13,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("MobX Restfull API"),
+        title: Text(MyConstans.appBarText),
       ),
       body: UserList(),
     );

@@ -124,6 +124,9 @@ class userCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
       child: ListTile(
         leading: Image.network(user.avatar),
         title: Text(
