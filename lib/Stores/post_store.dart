@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-
 import '../Models/post.dart';
 import '../Service/network_service.dart';
 

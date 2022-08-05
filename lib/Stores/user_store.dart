@@ -1,6 +1,5 @@
 import 'package:mobx/mobx.dart';
 import 'package:mobx_restfull_api/enum.dart';
-
 import '../Models/user.dart';
 import '../Service/network_service.dart';
 
