@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobx_restfull_api/Pages/Constans.dart';
+import 'package:mobx_restfull_api/Constants/Constans.dart';
 
-import 'home_page.dart';
+import 'Pages/home_page.dart';
 
 void main() => runApp(MyApp());
 
